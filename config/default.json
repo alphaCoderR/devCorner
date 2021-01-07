@@ -1,0 +1,5 @@
+{
+    "mongoUrl":"mongodb+srv://alphaCoder69:qwerty7890@cluster0.5mpkc.mongodb.net/devCorner?retryWrites=true&w=majority",
+    "offlineUrl":"mongodb://localhost:27017/devCorner",
+    "jwtSecret":"ThisIsASecretKey"
+}
