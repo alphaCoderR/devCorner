@@ -12,12 +12,15 @@ const { body, validationResult } = require("express-validator");
 //Including mongoose model
 const userModel = require("../../models/User");
 const profileModel = require("../../models/Profile");
+const Profile = require("../../models/Profile");
 
 router.get("/me", auth, async (req, res) => {
   try {
     const profile = await profileModel
       .findOne({ user: req.user.id })
-      .populate("User", ["name", "avatar"]);
+      .populate("user", ["name", "avatar"]);
+    // populate() takes the 1st argument the field of our model in which we have to populate & 2nd argument are the fields that we choose to populate in our model
+
     if (!profile) {
       res.status(400).send("Profile of this user doesn't exists");
     }
@@ -70,6 +73,8 @@ router.post(
         bio: bio,
         githubUsername: githubUsername,
         status: status,
+        education: "",
+        experience: "",
       };
 
       //Updating skills
@@ -88,12 +93,6 @@ router.post(
         newProfile.socialMedia.instagram = socialMedia.instagram;
       if (socialMedia.facebook)
         newProfile.socialMedia.facebook = socialMedia.facebook;
-
-      //Updating Educational details
-      newProfile.education = education;
-
-      //Updating Work experience
-      newProfile.experience = experience;
 
       try {
         let profile = await profileModel.findOne({ user: req.user.id });
@@ -115,5 +114,172 @@ router.post(
     }
   }
 );
+
+/*******************************************************
+   Route :          "api/profile"
+   Description :    "GET all user profiles"
+   Access :         "Public"
+*******************************************************/
+
+router.get("/", async (req, res) => {
+  try {
+    const profiles = await profileModel
+      .find()
+      .populate("user", ["name", "avatar"]);
+    res.json(profiles);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+/*******************************************************
+   Route :          "api/profile/user/:user_id"
+   Description :    "GET all user profiles"
+   Access :         "Public"
+*******************************************************/
+
+router.get("/user/:userId", async (req, res) => {
+  try {
+    const profile = await profileModel
+      .findOne({ user: req.params.userId })
+      .populate("user", ["name", "avatar"]);
+    if (!profile) {
+      res.status(404).send("The profile doesn't exists");
+    }
+    res.json(profile);
+  } catch (err) {
+    if (err.kind == "ObjectId") {
+      res.status(404).send("The profile doesn't exists");
+    } else {
+      res.status(500).send("Server Error");
+    }
+  }
+});
+
+/*******************************************************
+   Route :          "api/profile/del/:user_id"
+   Description :    "Delete your user profile"
+   Access :         "Private"
+*******************************************************/
+
+router.delete("/del/:userId", auth, async (req, res) => {
+  try {
+    const target = await profileModel.findOne({ user: req.params.userId });
+    if (!target) {
+      res.status(404).send("The profile doesn't exists");
+    } else {
+      // Removing the profile of the user
+      await profileModel.findOneAndDelete({ user: req.params.userId });
+      // Removing the user
+      await userModel.findByIdAndDelete(req.params.userId);
+
+      res.send("The User along with its data is deleted");
+    }
+  } catch (err) {
+    if (err.kind == "ObjectId") {
+      res.status(404).send("The profile doesn't exists");
+    } else {
+      res.status(500).send("Server Error");
+    }
+  }
+});
+
+/*******************************************************
+   Route :          "api/profile/experience"
+   Description :    "Adds the profile experience "
+   Access :         "Private"
+*******************************************************/
+
+router.put(
+  "/experience",
+  [
+    auth,
+    body("title", "Title is required").not().isEmpty(),
+    body("company", "Company Name is required").not().isEmpty(),
+    body("from", "Starting date is required").not().isEmpty(),
+  ],
+  async (req, res) => {
+    try {
+      let profile = await profileModel.findOne({ user: req.user.id });
+      await profile.experience.push(req.body);
+      await profile.save();
+      res.send("Experience Added");
+    } catch (err) {
+      console.log(err.message);
+      res.status(500).send("Server Error");
+    }
+  }
+);
+
+/*******************************************************
+   Route :          "api/profile/experience/del/experienceId"
+   Description :    "Delets the profile experience "
+   Access :         "Private"
+*******************************************************/
+
+router.delete("/experience/del/:experienceId", auth, async (req, res) => {
+  try {
+    let profile = await profileModel.findOne({ user: req.user.id });
+    let removeIndex = profile.experience
+      .map((ele) => ele.id)
+      .indexOf(req.params.experienceId); // Sends the index that matches with the given experience id
+    profile.experience.splice(removeIndex, 1); // Deletes an element from an array
+    await profile.save();
+    res.send("Experience deleted");
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+/*******************************************************
+   Route :          "api/profile/edu"
+   Description :    "Adds the educational details "
+   Access :         "Private"
+*******************************************************/
+
+router.put(
+  "/edu",
+  [
+    auth,
+    body("school", "School name is required").not().isEmpty(),
+    body("degree", "Degree is required").not().isEmpty(),
+    body("from", "Starting date is required").not().isEmpty(),
+    body("fieldOfStudy", "Enter the field of study").not().isEmpty(),
+  ],
+  async (req, res) => {
+    try {
+      let profile = await profileModel.findOne({ user: req.user.id });
+      await profile.education.push(req.body);
+      await profile.save();
+      res.send("Education details Added");
+    } catch (err) {
+      console.log(err.message);
+      res.status(500).send("Server Error");
+    }
+  }
+);
+
+/*******************************************************
+   Route :          "api/profile/edu/del/eduId"
+   Description :    "Delets the educational details "
+   Access :         "Private"
+*******************************************************/
+
+router.delete("/edu/del/:eduId", auth, async (req, res) => {
+  try {
+    let profile = await profileModel.findOne({ user: req.user.id });
+    let removeIndex = profile.education
+      .map((ele) => ele.id)
+      .indexOf(req.params.eduId); // Sends the index that matches with the given education id
+    profile.education.splice(removeIndex, 1); // Deletes an element from an array
+    await profile.save();
+    res.send("Education details deleted");
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send("Server Error");
+  }
+});
 
 module.exports = router;

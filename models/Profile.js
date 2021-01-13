@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const profileSchema = new mongoose.Schema({
   user: {
-    type: mongoose.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "User", // Referce is given to the "User" model for population
   },
   company: { 
@@ -47,12 +47,11 @@ const profileSchema = new mongoose.Schema({
         required: true,
       },
       to: {
-        type: Date,
-        required: true,
+        type: Date
       },
       current: {
         type: Boolean,
-        default: false,
+        default:false
       },
       description: {
         type: String,
@@ -78,15 +77,14 @@ const profileSchema = new mongoose.Schema({
         required: true,
       },
       to: {
-        type: Date,
-        required: true,
+        type: Date
       },
       current: {
         type: Boolean,
         default: false,
       },
       description: {
-        type: String,
+        type: String
       },
     },
   ],
