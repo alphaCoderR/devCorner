@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const auth = require("../../middleware/auth");
 const { body, validationResult } = require("express-validator");
+const axios = require("axios").default;
 
 /*******************************************************
    Route :          "api/profile/me"
@@ -22,7 +23,7 @@ router.get("/me", auth, async (req, res) => {
     // populate() takes the 1st argument the field of our model in which we have to populate & 2nd argument are the fields that we choose to populate in our model
 
     if (!profile) {
-      res.status(400).send("Profile of this user doesn't exists");
+      res.status(404).send("Profile of this user doesn't exists");
     }
     res.send(profile);
   } catch (err) {
@@ -280,6 +281,38 @@ router.delete("/edu/del/:eduId", auth, async (req, res) => {
     console.log(err.message);
     res.status(500).send("Server Error");
   }
+});
+
+/*******************************************************
+   Route :          "api/profile/gitRepo/:userName"
+   Description :    "Gets all the repositories of a user"
+   Access :         "Public"
+*******************************************************/
+
+router.get("/gitRepo/:userName", function (req, res) {
+  const url = "https://api.github.com/users/" + req.params.userName + "/repos";
+
+  axios
+    .get(url)
+    .then(function (response) {
+      if (response.status == 200) {
+        let Data = response.data.map((ele) => ({
+          name: ele.name,
+          description: ele.description,
+          language: ele.language,
+          forks: ele.forks,
+        }));
+        res.send(Data);
+        //res.json(JSON.parse(response.data));
+      } else {
+        res.status(404).send("Data not found");
+      }
+    })
+
+    .catch(function (error) {
+      console.log(error.message);
+      res.send(error.message);
+    });
 });
 
 module.exports = router;
