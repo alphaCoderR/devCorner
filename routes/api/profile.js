@@ -13,7 +13,7 @@ const axios = require("axios").default;
 //Including mongoose model
 const userModel = require("../../models/User");
 const profileModel = require("../../models/Profile");
-const Profile = require("../../models/Profile");
+
 
 router.get("/me", auth, async (req, res) => {
   try {
