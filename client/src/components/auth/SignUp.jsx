@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { setAlert } from "../../actions/alert"; // An action is imported here
+import { register } from "../../actions/auth";
+import PropTypes from "prop-types";
 
-const SignUp = () => {
+const SignUp = ({ setAlert, register }) => {
   const [formData, setformData] = useState({
     name: "",
     email: "",
@@ -16,13 +20,46 @@ const SignUp = () => {
     setformData({ ...formData, [name]: value });
   };
 
-  const checking = (event) => {
+  const checking = async (event) => {
     event.preventDefault();
-    if (password1 === password2) {
-      console.log("Passwoords match");
+    if (password1 !== password2) {
+      setAlert("Password do not match", "danger"); // Action
     } else {
-      console.log("Password does not match");
+      /*    **** This is an example code that shows how to communicate with our server ***** 
+      
+      Using axios package to communicate with our server.js in backend with data from frontend in React 
+        Axios acts as a substitute for using Postman
+      
+      try{
+        const newUser={
+          name:name,
+          email:email,
+          password:password1
+        }
+        const body=JSON.stringify(newUser);
+        const config={
+          headers:{
+            "Content-Type":"application/json"
+          }
+        }
+        const res=await axios.post("/api/users",body,config); //url is shortened because of the proxy field in package.json
+        console.log(res.data.token);
+      } catch(err){
+        console.log(err.message);
+      }*/
+      const newUser = {
+        name: name,
+        email: email,
+        password: password1,
+      };
+      register(newUser); // Action
     }
+    setformData({
+      name: "",
+      email: "",
+      password1: "",
+      password2: "",
+    });
   };
 
   return (
@@ -81,4 +118,11 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+SignUp.propTypes = {
+  setAlert: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
+};
+
+// ****** To use an action we have to pass it in the connect()
+// ***** connect() takes 2 parameters : i)any state you want to map & ii) a js objects with any actions you want to follow
+export default connect(null, { setAlert, register })(SignUp);

@@ -20,7 +20,7 @@ router.post(
   /****  Using Express Validator to validate the inputs ****/
   body("name", "Name is required").not().isEmpty(),
   body("email", "Email is required").isEmail(),
-  body("password", "Set a valid password").isLength({ min: 6 }),
+  body("password", "Set a valid password").isLength({ min: 8 }),
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
