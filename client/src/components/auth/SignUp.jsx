@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { setAlert } from "../../actions/alert"; // An action is imported here
 import { register } from "../../actions/auth";
+
 import PropTypes from "prop-types";
 
 const SignUp = ({ setAlert, register }) => {
@@ -23,7 +24,7 @@ const SignUp = ({ setAlert, register }) => {
   const checking = async (event) => {
     event.preventDefault();
     if (password1 !== password2) {
-      setAlert("Password do not match", "danger"); // Action
+      setAlert("Password do not match", "danger"); // ACTION
     } else {
       /*    **** This is an example code that shows how to communicate with our server ***** 
       
@@ -52,7 +53,7 @@ const SignUp = ({ setAlert, register }) => {
         email: email,
         password: password1,
       };
-      register(newUser); // Action
+      register(newUser); // ACTION
     }
     setformData({
       name: "",
