@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link,Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { setAlert } from "../../actions/alert"; // An action is imported here
 import { register } from "../../actions/auth";
 
 import PropTypes from "prop-types";
 
-const SignUp = ({ setAlert, register }) => {
+const SignUp = ({ setAlert, register,isAuthenticated }) => {
   const [formData, setformData] = useState({
     name: "",
     email: "",
@@ -62,6 +62,11 @@ const SignUp = ({ setAlert, register }) => {
       password2: "",
     });
   };
+
+  // Redirect if registration is successful
+  if (isAuthenticated) {
+    return <Redirect to="/dashboard" />;
+  }
 
   return (
     <section className="container" style={{ textAlign: "center" }}>
@@ -122,8 +127,15 @@ const SignUp = ({ setAlert, register }) => {
 SignUp.propTypes = {
   setAlert: PropTypes.func.isRequired,
   register: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
 };
+
+
+// mapStateToProps : this func gives us the value of the state in auth reducer
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
 
 // ****** To use an action we have to pass it in the connect()
 // ***** connect() takes 2 parameters : i)any state you want to map & ii) a js objects with any actions you want to follow
-export default connect(null, { setAlert, register })(SignUp);
+export default connect(mapStateToProps, { setAlert, register })(SignUp);

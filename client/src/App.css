@@ -336,6 +336,10 @@ button {
   
 }
 
+.navbarLoggedIn{
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
 .navbar ul {
   display: flex;
 }
