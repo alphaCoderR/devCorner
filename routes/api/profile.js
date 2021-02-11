@@ -60,8 +60,6 @@ router.post(
         githubUsername,
         skills,
         status,
-        experience,
-        education,
         socialMedia,
       } = req.body;
 
@@ -74,8 +72,8 @@ router.post(
         bio: bio,
         githubUsername: githubUsername,
         status: status,
-        education: "",
-        experience: "",
+        education: [],
+        experience: [],
       };
 
       //Updating skills

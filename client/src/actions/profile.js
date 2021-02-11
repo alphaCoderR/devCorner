@@ -28,8 +28,8 @@ export const makeProfile = (formData, history, edit = false) => async (
         "Content-Type": "application/json",
       },
     };
-    
-    const res = await axios.post("/api/profile", formData, config);
+    const body = JSON.stringify(formData);
+    const res = await axios.post("/api/profile", body, config);
 
     dispatch({
       type: GET_PROFILE,
@@ -52,7 +52,7 @@ export const makeProfile = (formData, history, edit = false) => async (
 
     dispatch({
       type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
