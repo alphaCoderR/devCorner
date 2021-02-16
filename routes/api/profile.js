@@ -14,7 +14,6 @@ const axios = require("axios").default;
 const userModel = require("../../models/User");
 const profileModel = require("../../models/Profile");
 
-
 router.get("/me", auth, async (req, res) => {
   try {
     const profile = await profileModel
@@ -74,11 +73,17 @@ router.post(
         status: status,
         education: [],
         experience: [],
+        skills: [],
       };
 
       //Updating skills
-      let skillArry = skills.split(",").map((ele) => ele.trim());
-      newProfile.skills = skillArry;
+      if(skills===null){
+        let skillArry = skills.split(",").map((ele) => ele.trim());
+        newProfile.skills = skillArry;
+      } else{
+        newProfile.skills=skills;
+      }
+      
 
       // Updating social media info
       newProfile.socialMedia = {};
@@ -314,3 +319,6 @@ router.get("/gitRepo/:userName", function (req, res) {
 });
 
 module.exports = router;
+/*
+
+ */

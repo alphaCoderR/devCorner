@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { getCurrentProfile } from "../../actions/profile";
+import DashboardActions from "./DashboardActions";
 
 const Dashboard = ({
   getCurrentProfile,
@@ -31,7 +32,7 @@ const Dashboard = ({
         </Fragment>
       ) : (
         <Fragment>
-          <p>Your profile is already created</p>
+          <DashboardActions/>
         </Fragment>
       )}
     </Fragment>

@@ -1,10 +1,15 @@
-import React, { useState, Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { makeProfile } from "../../actions/profile";
+import { makeProfile, getCurrentProfile } from "../../actions/profile";
 
-const CreateProfile = ({ makeProfile, history }) => {
+const UpdateProfile = ({
+  profile: { profile, loading },
+  makeProfile,
+  getCurrentProfile,
+  history,
+}) => {
   const [formData, setFormData] = useState({
     company: "",
     website: "",
@@ -22,22 +27,49 @@ const CreateProfile = ({ makeProfile, history }) => {
     },
   });
 
-  const [displaySocialMedia, setSocialMedia] = useState({
-    condition: false,
-    text: "Add Social Media Links",
-  });
+  useEffect(() => {
+    getCurrentProfile();
 
-  const showIcons = () => {
-    displaySocialMedia.condition === false
-      ? setSocialMedia({
-          condition: true,
-          text: "Hide Links",
-        })
-      : setSocialMedia({
-          condition: false,
-          text: "Add Social Media Links",
-        });
-  };
+    setFormData({
+      company: loading || !profile.company ? "" : profile.company,
+      website: loading || !profile.website ? "" : profile.website,
+      location: loading || !profile.location ? "" : profile.location,
+      status: loading || !profile.status ? "" : profile.status,
+      skills: loading || !profile.skills ? "" : profile.skills,
+      bio: loading || !profile.bio ? "" : profile.bio,
+      githubUsername:
+        loading || !profile.githubUsername ? "" : profile.githubUsername,
+      socialMedia: (profile.socialMedia)
+        ? {
+            twitter:loading || !profile.socialMedia.twitter
+            ? ""
+            :  profile.socialMedia.twitter,
+            facebook:
+              loading || !profile.socialMedia.facebook
+                ? ""
+                : profile.socialMedia.facebook,
+            linkedin:
+              loading || !profile.socialMedia.linkedin
+                ? ""
+                : profile.socialMedia.linkedin,
+            youtube:
+              loading || !profile.socialMedia.youtube
+                ? ""
+                : profile.socialMedia.youtube,
+            instagram:
+              loading || !profile.socialMedia.instagram
+                ? ""
+                : profile.socialMedia.instagram,
+          }
+        : {
+            twitter: "",
+            facebook: "",
+            linkedin: "",
+            youtube: "",
+            instagram: "",
+          },
+    });
+  }, [loading]);
 
   const customStyle = {
     width: "80%",
@@ -54,13 +86,13 @@ const CreateProfile = ({ makeProfile, history }) => {
 
   const addingSocialLinks = (event) => {
     const { name, value } = event.target;
-    setFormData({ ...formData, socialMedia: { [name]: value } });
+    setFormData({ ...formData, socialMedia: { ...formData.socialMedia,[name]: value } });
   };
 
   // Form Submission
-  const formSubmit = async (event) => {
+  const formSubmit =  (event) => {
     event.preventDefault();
-    makeProfile(formData, history);
+    makeProfile(formData, history, true);
     setFormData({
       company: "",
       website: "",
@@ -180,70 +212,62 @@ const CreateProfile = ({ makeProfile, history }) => {
           <small className="form-text">Tell us a little about yourself</small>
         </div>
 
-        <div className="my-2">
-          <button type="button" className="btn btn-light" onClick={showIcons}>
-            {displaySocialMedia.text}
-          </button>
-        </div>
+        <Fragment>
+          <div className="form-group social-input">
+            <i className="fab fa-twitter fa-2x"></i>
+            <input
+              type="text"
+              placeholder="Twitter URL"
+              name="twitter"
+              value={formData.socialMedia.twitter}
+              onChange={addingSocialLinks}
+            />
+          </div>
 
-        {displaySocialMedia.condition && (
-          <Fragment>
-            <div className="form-group social-input">
-              <i className="fab fa-twitter fa-2x"></i>
-              <input
-                type="text"
-                placeholder="Twitter URL"
-                name="twitter"
-                value={formData.socialMedia.twitter}
-                onChange={addingSocialLinks}
-              />
-            </div>
+          <div className="form-group social-input">
+            <i className="fab fa-facebook fa-2x"></i>
+            <input
+              type="text"
+              placeholder="Facebook URL"
+              name="facebook"
+              value={formData.socialMedia.facebook}
+              onChange={addingSocialLinks}
+            />
+          </div>
 
-            <div className="form-group social-input">
-              <i className="fab fa-facebook fa-2x"></i>
-              <input
-                type="text"
-                placeholder="Facebook URL"
-                name="facebook"
-                value={formData.socialMedia.facebook}
-                onChange={addingSocialLinks}
-              />
-            </div>
+          <div className="form-group social-input">
+            <i className="fab fa-youtube fa-2x"></i>
+            <input
+              type="text"
+              placeholder="YouTube URL"
+              name="youtube"
+              value={formData.socialMedia.youtube}
+              onChange={addingSocialLinks}
+            />
+          </div>
 
-            <div className="form-group social-input">
-              <i className="fab fa-youtube fa-2x"></i>
-              <input
-                type="text"
-                placeholder="YouTube URL"
-                name="youtube"
-                value={formData.socialMedia.youtube}
-                onChange={addingSocialLinks}
-              />
-            </div>
+          <div className="form-group social-input">
+            <i className="fab fa-linkedin fa-2x"></i>
+            <input
+              type="text"
+              placeholder="Linkedin URL"
+              name="linkedin"
+              value={formData.socialMedia.linkedin}
+              onChange={addingSocialLinks}
+            />
+          </div>
 
-            <div className="form-group social-input">
-              <i className="fab fa-linkedin fa-2x"></i>
-              <input
-                type="text"
-                placeholder="Linkedin URL"
-                name="linkedin"
-                value={formData.socialMedia.linkedin}
-                onChange={addingSocialLinks}
-              />
-            </div>
-
-            <div className="form-group social-input">
-              <i className="fab fa-instagram fa-2x"></i>
-              <input
-                type="text"
-                placeholder="Instagram URL"
-                name="instagram"
-                value={formData.socialMedia.instagram}
-                onChange={addingSocialLinks}
-              />
-            </div>
-          </Fragment>
-        )}
+          <div className="form-group social-input">
+            <i className="fab fa-instagram fa-2x"></i>
+            <input
+              type="text"
+              placeholder="Instagram URL"
+              name="instagram"
+              value={formData.socialMedia.instagram}
+              onChange={addingSocialLinks}
+            />
+          </div>
+        </Fragment>
 
         <div style={{ width: "40%", marginLeft: "auto", marginRight: "auto" }}>
           <input type="submit" className="btn btn-primary my-1" />
@@ -256,8 +280,16 @@ const CreateProfile = ({ makeProfile, history }) => {
   );
 };
 
-CreateProfile.propTypes = {
+UpdateProfile.propTypes = {
   makeProfile: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired,
 };
 
-export default connect(null, { makeProfile })(withRouter(CreateProfile));
+const mapStateToProps = (state) => ({
+  profile: state.profile
+});
+
+export default connect(mapStateToProps, { makeProfile, getCurrentProfile })(
+  withRouter(UpdateProfile)
+);
