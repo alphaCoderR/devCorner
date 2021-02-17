@@ -9,6 +9,8 @@ import Alert from "./components/layout/Alert.jsx";
 import Dashboard from "./components/dashboard/Dashboard";
 import CreateProfile from "./components/profile-forms/CreateProfile";
 import UpdateProfile from "./components/profile-forms/UpdateProfile";
+import AddExperience from "./components/profile-forms/AddExperience";
+import AddEducation from "./components/profile-forms/AddEducation";
 import PrivateRoute from "./components/routing/PrivateRoute";
 
 // Redux
@@ -43,6 +45,8 @@ const App = () => {
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
               <PrivateRoute exact path="/createProfile" component={CreateProfile} />
               <PrivateRoute exact path="/editProfile" component={UpdateProfile} />
+              <PrivateRoute exact path="/addExperience" component={AddExperience} />
+              <PrivateRoute exact path="/addEducation" component={AddEducation} />
             </Switch>
           </section>
         </Fragment>

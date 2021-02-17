@@ -208,7 +208,7 @@ router.put(
       let profile = await profileModel.findOne({ user: req.user.id });
       await profile.experience.push(req.body);
       await profile.save();
-      res.send("Experience Added");
+      res.send(profile);
     } catch (err) {
       console.log(err.message);
       res.status(500).send("Server Error");
@@ -230,7 +230,7 @@ router.delete("/experience/del/:experienceId", auth, async (req, res) => {
       .indexOf(req.params.experienceId); // Sends the index that matches with the given experience id
     profile.experience.splice(removeIndex, 1); // Deletes an element from an array
     await profile.save();
-    res.send("Experience deleted");
+    res.send(profile);
   } catch (err) {
     console.log(err.message);
     res.status(500).send("Server Error");
@@ -257,13 +257,14 @@ router.put(
       let profile = await profileModel.findOne({ user: req.user.id });
       await profile.education.push(req.body);
       await profile.save();
-      res.send("Education details Added");
+      res.send(profile);
     } catch (err) {
       console.log(err.message);
       res.status(500).send("Server Error");
     }
   }
 );
+
 
 /*******************************************************
    Route :          "api/profile/edu/del/eduId"
@@ -279,7 +280,7 @@ router.delete("/edu/del/:eduId", auth, async (req, res) => {
       .indexOf(req.params.eduId); // Sends the index that matches with the given education id
     profile.education.splice(removeIndex, 1); // Deletes an element from an array
     await profile.save();
-    res.send("Education details deleted");
+    res.send(profile);
   } catch (err) {
     console.log(err.message);
     res.status(500).send("Server Error");
