@@ -13,6 +13,7 @@ const axios = require("axios").default;
 //Including mongoose model
 const userModel = require("../../models/User");
 const profileModel = require("../../models/Profile");
+const postModel = require("../../models/Post");
 
 router.get("/me", auth, async (req, res) => {
   try {
@@ -77,13 +78,12 @@ router.post(
       };
 
       //Updating skills
-      if(skills===null){
+      if (skills === null) {
         let skillArry = skills.split(",").map((ele) => ele.trim());
         newProfile.skills = skillArry;
-      } else{
-        newProfile.skills=skills;
+      } else {
+        newProfile.skills = skills;
       }
-      
 
       // Updating social media info
       newProfile.socialMedia = {};
@@ -173,12 +173,14 @@ router.delete("/del/:userId", auth, async (req, res) => {
     if (!target) {
       res.status(404).send("The profile doesn't exists");
     } else {
+      // Removing all the posts of the user
+      await postModel.deleteMany({ user: req.params.userId });
       // Removing the profile of the user
       await profileModel.findOneAndDelete({ user: req.params.userId });
       // Removing the user
       await userModel.findByIdAndDelete(req.params.userId);
 
-      res.send("The User along with its data is deleted");
+      res.status(200).send("Deleted Successfully");
     }
   } catch (err) {
     if (err.kind == "ObjectId") {
@@ -264,7 +266,6 @@ router.put(
     }
   }
 );
-
 
 /*******************************************************
    Route :          "api/profile/edu/del/eduId"

@@ -172,10 +172,10 @@ export const delEducation = (id, history) => async (dispatch) => {
 };
 
 // Deletes account and profile of a user
-export const delAccount = () => async (dispatch) => {
+export const delAccount = (id) => async (dispatch) => {
   if (
     window.confirm(
-      "Are you sure that you want to delete your account as this action is irreversible !!"
+      "Are you sure that you want to delete your account as this action is irreversible !!?"
     )
   ) {
     try {
