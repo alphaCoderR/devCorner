@@ -69,7 +69,7 @@ const UpdateProfile = ({
             instagram: "",
           },
     });
-  }, [loading]);
+  }, [loading,getCurrentProfile]);
 
   const customStyle = {
     width: "80%",

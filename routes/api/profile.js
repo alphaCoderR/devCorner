@@ -269,7 +269,7 @@ router.put(
 
 /*******************************************************
    Route :          "api/profile/edu/del/eduId"
-   Description :    "Delets the educational details "
+   Description :    "Deletes the educational details "
    Access :         "Private"
 *******************************************************/
 

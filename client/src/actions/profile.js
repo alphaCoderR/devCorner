@@ -6,7 +6,58 @@ import {
   UPDATE_PROFILE,
   DELETE_PROFILE,
   CLEAR_PROFILE,
+  GET_ALL_PROFILES,
+  GET_REPOS
 } from "./constants";
+
+// Get all users profile
+export const getProfiles = () => async (dispatch) => {
+  try {
+    const res = await axios.get("api/profile");
+    dispatch({
+      type: GET_ALL_PROFILES,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Get users profile by id
+export const getProfileById = (userId) => async (dispatch) => {
+  try {
+    const res = await axios.get(`api/profile/user${userId}`);
+    dispatch({
+      type: GET_PROFILE,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Get all Github repos
+export const getGithubRepos = (userName) => async (dispatch) => {
+  try {
+    const res = await axios.get(`api/profile/gitRepo/${userName}`);
+    dispatch({
+      type: GET_REPOS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
 
 // GETS THE PROFILE OF THE CURRENT USER
 export const getCurrentProfile = () => async (dispatch) => {
@@ -180,12 +231,12 @@ export const delAccount = (id) => async (dispatch) => {
   ) {
     try {
       const link = `api/profile/del/${id}`;
-      const res = await axios.delete(link);
+      await axios.delete(link);
 
-      dispatch({type: CLEAR_PROFILE});
+      dispatch({ type: CLEAR_PROFILE });
       dispatch({ type: DELETE_PROFILE });
 
-    dispatch(setAlert("Your account has been deleted permanently"));
+      dispatch(setAlert("Your account has been deleted permanently"));
     } catch (err) {
       dispatch({
         type: PROFILE_ERROR,

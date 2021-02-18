@@ -5,13 +5,15 @@ import PropTypes from "prop-types";
 import { logout } from "../../actions/auth";
 
 const Navbar = ({ logout, auth: { isAuthenticated, loading } }) => {
-
   const authLinks = (
     <ul>
       <li>
         <Link to="/dashboard">
           <i className="fas fa-user" /> <span className="hide-sm">Profile</span>
         </Link>
+      </li>
+      <li>
+        <Link to="/profiles">Connect</Link>
       </li>
       <li>
         <a onClick={logout} href="#!">
@@ -37,7 +39,7 @@ const Navbar = ({ logout, auth: { isAuthenticated, loading } }) => {
       </li>
     </ul>
   );
-  
+
   return (
     <nav className={isAuthenticated ? "navbar navbarLoggedIn" : "navbar"}>
       <h1 style={{ color: "#feffff" }}>

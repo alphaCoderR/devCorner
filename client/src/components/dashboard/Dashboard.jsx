@@ -6,6 +6,7 @@ import { getCurrentProfile, delAccount } from "../../actions/profile";
 import DashboardActions from "./DashboardActions";
 import Experience from "./Experience";
 import Education from "./Education";
+import Spinner from "../Spinner";
 
 const Dashboard = ({
   getCurrentProfile,
@@ -15,13 +16,9 @@ const Dashboard = ({
 }) => {
   useEffect(() => {
     getCurrentProfile();
-  }, []);
+  }, [getCurrentProfile]);
 
-  return loading && profile === null ? (
-    <div class="fa-5x" style={{ color: "#feffff", textAlign: "center" }}>
-      <i class="fas fa-sync fa-spin"></i>
-    </div>
-  ) : (
+  return loading && profile === null ? <Spinner/> : (
     <Fragment>
       {" "}
       <h1 className="large text-primary">Profile</h1>
