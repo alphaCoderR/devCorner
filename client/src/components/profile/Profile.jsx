@@ -5,6 +5,9 @@ import { connect } from "react-redux";
 import Spinner from "../Spinner";
 import ProfileTop from "./ProfileTop";
 import ProfileAbout from "./ProfileAbout";
+import ProfileExperience from "./ProfileExperience";
+import ProfileEducation from "./ProfileEducation";
+import ProfileGithub from "./ProfileGithub";
 import { getProfileById } from "../../actions/profile";
 
 const Profile = ({
@@ -16,7 +19,7 @@ const Profile = ({
 }) => {
   useEffect(() => {
     getProfileById(match.params.id);
-  }, [getProfileById,match.params.id]);
+  }, [getProfileById, match.params.id]);
 
   return (
     <Fragment>
@@ -33,8 +36,13 @@ const Profile = ({
             </Link>
           )}
           <div className="profile-grid my-1">
-              <ProfileTop profile={profile}/>
-              <ProfileAbout profile={profile}/>
+            <ProfileTop profile={profile} />
+            <ProfileAbout profile={profile} />
+            <ProfileExperience profile={profile} />
+            <ProfileEducation profile={profile} />
+            {profile.githubUsername && (
+              <ProfileGithub userName={profile.githubUsername} />
+            )}
           </div>
         </Fragment>
       )}
@@ -54,3 +62,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, { getProfileById })(Profile);
+/*
+ */

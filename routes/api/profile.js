@@ -306,9 +306,11 @@ router.get("/gitRepo/:userName", function (req, res) {
           description: ele.description,
           language: ele.language,
           forks: ele.forks,
+          stars:ele.stargazers_count,
+          watchers:ele.watchers_count
         }));
+        
         res.send(Data);
-        //res.json(JSON.parse(response.data));
       } else {
         res.status(404).send("Data not found");
       }
@@ -321,6 +323,4 @@ router.get("/gitRepo/:userName", function (req, res) {
 });
 
 module.exports = router;
-/*
 
- */

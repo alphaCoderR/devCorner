@@ -7,7 +7,7 @@ import {
   DELETE_PROFILE,
   CLEAR_PROFILE,
   GET_ALL_PROFILES,
-  GET_REPOS
+  GET_REPOS,
 } from "./constants";
 
 // Get all users profile
@@ -35,6 +35,7 @@ export const getProfileById = (userId) => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
+    console.log(err);
     dispatch({
       type: PROFILE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
@@ -45,19 +46,21 @@ export const getProfileById = (userId) => async (dispatch) => {
 // Get all Github repos
 export const getGithubRepos = (userName) => async (dispatch) => {
   try {
-    const res = await axios.get(`api/profile/gitRepo/${userName}`);
+    const url = "/api/profile/gitRepo/" + userName;
+    const res = await axios.get(url);
+
     dispatch({
       type: GET_REPOS,
       payload: res.data,
     });
   } catch (err) {
+    console.log(err.message);
     dispatch({
       type: PROFILE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
-
 
 // GETS THE PROFILE OF THE CURRENT USER
 export const getCurrentProfile = () => async (dispatch) => {
