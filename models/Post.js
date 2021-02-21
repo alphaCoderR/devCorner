@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+
 const postSchema = new mongoose.Schema({
   user: {
     // This is a js object. For comparing this user field with other fiels first convert it to a string using toString() method

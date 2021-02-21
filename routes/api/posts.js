@@ -37,7 +37,7 @@ router.post(
         });
 
         await newPost.save();
-        res.send("Post created");
+        res.send(newPost);
       }
     } catch (err) {
       console.log(err.message);
@@ -56,7 +56,7 @@ router.get("/", auth, async (req, res) => {
   try {
     let posts = await postModel
       .find()
-      .select(["-_id", "-date", "-__v"])
+      .select(["-date", "-__v"])
       .sort({ date: -1 }); // Sorts the results in ascending manner
     res.json(posts);
   } catch (err) {
@@ -77,7 +77,7 @@ router.get("/:postId", auth, async (req, res) => {
     if (!post) {
       res.status(404).send("Post doesn't exists");
     }
-    res.json(post);
+    res.send(post);
   } catch (err) {
     console.log(err.message);
     if (err.kind === "ObjectId") {
@@ -102,7 +102,7 @@ router.delete("/del/:postId", auth, async (req, res) => {
     }
     if (post.user.toString() === req.user.id) {
       await post.remove(); // Deletes the post
-      res.send("Post Deleted");
+      res.send(await postModel.find());
     } else {
       res.status(401).send("Unauthorized");
     }
@@ -136,7 +136,6 @@ router.put("/like/:postId", auth, async (req, res) => {
     if (likeCounter.length == 0 && dislikeCounter.length == 0) {
       post.likes.unshift(req.user.id);
       await post.save();
-      res.send("Post Liked");
     }
 
     // When the user has already liked this post and this request removes his like from the post
@@ -144,7 +143,6 @@ router.put("/like/:postId", auth, async (req, res) => {
       let removeLike = await post.likes.indexOf(likeCounter[0]);
       post.likes.splice(removeLike, 1);
       await post.save();
-      res.send("Post Unliked");
     }
 
     // When there is a dislike then the dislike is removed first & then it is liked
@@ -153,8 +151,8 @@ router.put("/like/:postId", auth, async (req, res) => {
       post.dislikes.splice(removeDislike, 1);
       post.likes.unshift(req.user.id);
       await post.save();
-      res.send("Post Liked");
     }
+    res.send(post.likes);
   } catch (err) {
     console.log(err.message);
     if (err.kind === "ObjectId") {
@@ -182,21 +180,19 @@ router.put("/dislike/:postId", auth, async (req, res) => {
     if (likeCounter.length == 0 && dislikeCounter.length == 0) {
       post.dislikes.unshift(req.user.id);
       await post.save();
-      res.send("Post Disliked");
     }
     if (likeCounter.length != 0) {
       let removeLike = await post.likes.indexOf(likeCounter[0]);
       post.likes.splice(removeLike, 1);
       post.dislikes.unshift(req.user.id);
       await post.save();
-      res.send("Post Disliked");
     }
     if (dislikeCounter.length != 0) {
       let removeDislike = await post.dislikes.indexOf(dislikeCounter[0]);
       post.dislikes.splice(removeDislike, 1);
       await post.save();
-      res.send("Dislike Removed");
     }
+    res.send(post.dislikes);
   } catch (err) {
     console.log(err.message);
     if (err.kind === "ObjectId") {
@@ -233,7 +229,7 @@ router.post(
         await Post.comments.unshift(newComment);
 
         await Post.save();
-        res.send("Your comment has been published");
+        res.send(Post.comments);
       }
     } catch (err) {
       console.log(err.message);
@@ -268,7 +264,7 @@ router.delete("/comment/del/:postId/:commentId", auth, async (req, res) => {
       .indexOf(req.user.id);
     post.comments.splice(removeIndex, 1);
     await post.save();
-    res.send("Comment Deleted Successfully");
+    res.send(post.comments);
   } catch (err) {
     console.log(err.message);
     if (err.kind === "ObjectId") {
