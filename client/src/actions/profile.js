@@ -29,7 +29,7 @@ export const getProfiles = () => async (dispatch) => {
 // Get users profile by id
 export const getProfileById = (userId) => async (dispatch) => {
   try {
-    const res = await axios.get(`api/profile/user${userId}`);
+    const res = await axios.get(`/api/profile/user/${userId}`);
     dispatch({
       type: GET_PROFILE,
       payload: res.data,
@@ -65,7 +65,7 @@ export const getGithubRepos = (userName) => async (dispatch) => {
 // GETS THE PROFILE OF THE CURRENT USER
 export const getCurrentProfile = () => async (dispatch) => {
   try {
-    const res = await axios.get("api/profile/me");
+    const res = await axios.get("/api/profile/me");
     dispatch({
       type: GET_PROFILE,
       payload: res.data,

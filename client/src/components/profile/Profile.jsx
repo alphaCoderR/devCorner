@@ -13,7 +13,7 @@ import { getProfileById } from "../../actions/profile";
 const Profile = ({
   getProfileById,
   profile: { profile, loading },
-  auth: { isAuthenticated },
+  auth: { isAuthenticated,user },
   match,
   // In this match obj there is another obj called params which holds all the matching params in the url that we passed
 }) => {
@@ -30,7 +30,7 @@ const Profile = ({
           <Link to="/profiles" className="btn btn-light">
             Back
           </Link>
-          {match.params.id === profile.user._id && isAuthenticated === true && (
+          {match.params.id === user._id && isAuthenticated === true && (
             <Link to="/editProfile" className="btn btn-primary">
               Edit Profile
             </Link>
