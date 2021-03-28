@@ -7,7 +7,7 @@ import {
   ADD_POSTS,
   UPDATE_COMMENTS
 } from "../actions/constants";
-import { addComment } from "../actions/post";
+
 
 const initialState = {
   posts: [],
