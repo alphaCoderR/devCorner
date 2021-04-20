@@ -2,6 +2,14 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import Moment from "react-moment";
+import Button from "@material-ui/core/Button";
+import { makeStyles } from '@material-ui/core/styles';
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
+import ThumbDownIcon from '@material-ui/icons/ThumbDown';
+import Avatar from '@material-ui/core/Avatar';
+import Fab from "@material-ui/core/Fab";
+import DeleteIcon from "@material-ui/icons/Delete";
 import { connect } from "react-redux";
 import { addLike, removeLike, removePost } from "../../actions/post";
 
@@ -24,11 +32,25 @@ const PostItem = ({
   removePost,
   showActions,
 }) => {
+
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      display: 'flex',
+      '& > *': {
+        margin: theme.spacing(1),
+      },
+    },
+    large: {
+      width: theme.spacing(10),
+      height: theme.spacing(10),
+    },
+  }));
+  const classes = useStyles();
   return (
     <div className="post bg-white p-1 my-1">
       <div>
-        <a href="profile.html">
-          <img className="round-img" src={avatar} alt="" />
+        <a href={"/profile/" + user}>
+          <Avatar alt={name} src={avatar} className={classes.large}  />
           <h4>{name}</h4>
         </a>
       </div>
@@ -40,8 +62,14 @@ const PostItem = ({
         </p>
         {showActions && (
           <Fragment>
-            <Link to={`/post/${_id}`} className="btn btn-primary">
-              See Post
+            <Link to={`/post/${_id}`}>
+              <Button
+                variant="contained" 
+                color="primary"
+                startIcon={<VisibilityIcon />}
+              >
+                View
+              </Button>
             </Link>
             {auth.isAuthenticated && auth.loading === false && (
               <Fragment>
@@ -52,7 +80,7 @@ const PostItem = ({
                   type="button"
                   className="btn btn-light"
                 >
-                  <i className="fas fa-thumbs-up"></i>
+                  <ThumbUpAltIcon style={{ color: "#3aafa9" }}  />
                   <span>{likes.length}</span>
                 </button>
                 <button
@@ -62,19 +90,21 @@ const PostItem = ({
                   type="button"
                   className="btn btn-light"
                 >
-                  <i className="fas fa-thumbs-down"></i>
+                  <ThumbDownIcon color="default"  />
                   <span>{dislikes.length}</span>
                 </button>
                 {!auth.loading && user === auth.user._id && (
-                  <button
-                    onClick={(event) => {
-                      removePost(_id);
-                    }}
-                    type="button"
-                    className="btn btn-danger"
+                  <Fab
+                    size="medium"
+                    style={{ color: "red" }}
+                    aria-label="delete"
                   >
-                    <i className="fas fa-times"></i>Delete
-                  </button>
+                    <DeleteIcon
+                      onClick={(event) => {
+                        removePost(_id);
+                      }}
+                    />
+                  </Fab>
                 )}
               </Fragment>
             )}
@@ -85,9 +115,9 @@ const PostItem = ({
   );
 };
 
-PostItem.defaultProps={
-  showActions:true
-}
+PostItem.defaultProps = {
+  showActions: true,
+};
 
 PostItem.propTypes = {
   post: PropTypes.object.isRequired,

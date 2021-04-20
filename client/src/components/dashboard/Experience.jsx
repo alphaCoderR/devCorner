@@ -1,5 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
+import Fab from "@material-ui/core/Fab";
+import DeleteIcon from "@material-ui/icons/Delete";
 import Moment from "react-moment";
 import { connect } from "react-redux";
 import { delExperience } from "../../actions/profile";
@@ -22,14 +24,13 @@ const Experience = ({ experience, delExperience }) => {
         )}
       </td>
       <td>
-        <button
-          onClick={() => {
-            delFunc(exp.id);
-          }}
-          className="btn btn-danger"
-        >
-          X
-        </button>
+        <Fab size="medium" style={{ color: "red" }} aria-label="delete">
+          <DeleteIcon
+            onClick={() => {
+              delFunc(exp.id);
+            }}
+          />
+        </Fab>
       </td>
     </tr>
   ));
@@ -57,3 +58,7 @@ Experience.propTypes = {
 };
 
 export default connect(null, { delExperience })(Experience);
+
+/*
+ 
+ */

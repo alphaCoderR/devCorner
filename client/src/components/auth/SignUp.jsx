@@ -1,12 +1,27 @@
 import React, { useState } from "react";
-import { Link,Redirect } from "react-router-dom";
+import Button from "@material-ui/core/Button";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import teal from "@material-ui/core/colors/teal";
+import TextField from "@material-ui/core/TextField";
+import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { setAlert } from "../../actions/alert"; // An action is imported here
 import { register } from "../../actions/auth";
 
 import PropTypes from "prop-types";
 
-const SignUp = ({ setAlert, register,isAuthenticated }) => {
+const SignUp = ({ setAlert, register, isAuthenticated }) => {
+  const theme = createMuiTheme({
+    palette: {
+      primary: {
+        main: teal[500],
+      },
+      secondary: {
+        main: "#26a69a",
+      },
+    },
+  });
+
   const [formData, setformData] = useState({
     name: "",
     email: "",
@@ -47,7 +62,8 @@ const SignUp = ({ setAlert, register,isAuthenticated }) => {
         console.log(res.data.token);
       } catch(err){
         console.log(err.message);
-      }*/
+      }
+      */
       const newUser = {
         name: name,
         email: email,
@@ -71,54 +87,96 @@ const SignUp = ({ setAlert, register,isAuthenticated }) => {
   return (
     <section className="container" style={{ textAlign: "center" }}>
       <h1 className="large text-primary">Sign Up</h1>
-      <p className="lead">
+      <p className="lead" style={{ color: "rgb(0,0,0,0.6)" }}>
         <i className="fas fa-user"></i> Create Your Account
       </p>
-      <form className="form" onSubmit={checking}>
-        <div className="form-group">
-          <input
+      <form onSubmit={checking}>
+        <ThemeProvider theme={theme}>
+          <TextField
+            id="outlined-primary"
+            label="Name"
+            variant="outlined"
+            color="primary"
             type="text"
             placeholder="Name"
             name="name"
             value={name}
-            required
             onChange={handleChange}
+            required
+            style={{
+              marginBottom: "3%",
+              marginRight: "2%",
+              width: "40%",
+              marginTop: "2%",
+            }}
           />
-        </div>
-        <div className="form-group">
-          <input
+
+          <TextField
+            id="outlined-primary"
+            label="Email"
+            variant="outlined"
+            color="primary"
             type="email"
-            placeholder="Email Address"
             name="email"
+            placeholder="Email"
             value={email}
             onChange={handleChange}
             required
+            style={{ marginLeft: "2%", width: "40%", marginTop: "2%" }}
           />
-        </div>
-        <div className="form-group">
-          <input
+
+          <TextField
+            id="outlined-primary"
+            label="Password"
+            variant="outlined"
+            color="primary"
             type="password"
-            placeholder="Password"
+            minLength="8"
             name="password1"
-            minLength="8"
-            onChange={handleChange}
             value={password1}
-          />
-        </div>
-        <div className="form-group">
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            name="password2"
-            minLength="8"
             onChange={handleChange}
-            value={password2}
+            required
+            style={{
+              marginBottom: "3%",
+              marginRight: "2%",
+              width: "40%",
+              marginTop: "2%",
+            }}
           />
-        </div>
-        <input type="submit" className="btn btn-primary" value="Register" />
+
+          <TextField
+            id="outlined-primary"
+            label="Confirm password"
+            variant="outlined"
+            color="primary"
+            minLength="8"
+            type="password"
+            name="password2"
+            value={password2}
+            onChange={handleChange}
+            required
+            style={{ marginLeft: "2%", width: "40%", marginTop: "2%" }}
+          />
+
+          <div className="form-group">
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              value="Register"
+            >
+              Sign Up
+            </Button>
+          </div>
+        </ThemeProvider>
       </form>
       <p className="my-1">
-        Already have an account? <Link to="/login">Sign In</Link>
+        Already have an account?{" "}
+        <Link to="/login">
+          <Button variant="outlined" color="primary" href="#outlined-buttons">
+            Login
+          </Button>
+        </Link>
       </p>
     </section>
   );
@@ -129,7 +187,6 @@ SignUp.propTypes = {
   register: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
 };
-
 
 // mapStateToProps : this func gives us the value of the state in auth reducer
 const mapStateToProps = (state) => ({

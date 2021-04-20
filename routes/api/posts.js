@@ -52,7 +52,7 @@ router.post(
    Access :         "Private"
 *******************************************************/
 
-router.get("/", auth, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     let posts = await postModel
       .find()

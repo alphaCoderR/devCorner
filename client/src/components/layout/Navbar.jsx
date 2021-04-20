@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { logout } from "../../actions/auth";
 
 const Navbar = ({ logout, auth: { isAuthenticated, loading, user } }) => {
+  
   const authLinks = (
     <ul>
       <li>
@@ -50,6 +51,7 @@ const Navbar = ({ logout, auth: { isAuthenticated, loading, user } }) => {
           <i class="fas fa-code"></i> DevCorner
         </Link>
       </h1>
+
       {!loading && (
         <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
       )}
@@ -67,3 +69,4 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, { logout })(Navbar);
+

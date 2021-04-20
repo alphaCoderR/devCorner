@@ -1,6 +1,9 @@
 import React, { Fragment, useEffect } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
+import AddIcon from "@material-ui/icons/Add";
 import { connect } from "react-redux";
 import Spinner from "../Spinner";
 import PostItem from "./PostItem";
@@ -26,8 +29,15 @@ const Posts = ({
       </p>
       {isAuthenticated && (
         <div className="dash-buttons">
-          <Link to="/newPost" class="btn btn-light">
-            <i class="fas fa-user-circle text-primary"></i> Create a new Post
+          <Link to="/newPost">
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              startIcon={<AddIcon />}
+            >
+              Create a new post
+            </Button>
           </Link>
         </div>
       )}

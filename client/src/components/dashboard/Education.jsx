@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Moment from "react-moment";
+import Fab from "@material-ui/core/Fab";
+import DeleteIcon from "@material-ui/icons/Delete";
 import { connect } from "react-redux";
 import { delEducation } from "../../actions/profile";
 
@@ -22,14 +24,13 @@ const Education = ({ education, delEducation }) => {
         )}
       </td>
       <td>
-        <button
-          onClick={() => {
-            delFunc(edu.id);
-          }}
-          className="btn btn-danger"
-        >
-          X
-        </button>
+        <Fab size="medium" style={{ color: "red" }} aria-label="delete">
+          <DeleteIcon
+            onClick={() => {
+              delFunc(edu.id);
+            }}
+          />
+        </Fab>
       </td>
     </tr>
   ));
@@ -57,3 +58,12 @@ Education.propTypes = {
 };
 
 export default connect(null, { delEducation })(Education);
+
+/*<button
+          onClick={() => {
+            delFunc(edu.id);
+          }}
+          className="btn btn-danger"
+        >
+          X
+        </button> */
