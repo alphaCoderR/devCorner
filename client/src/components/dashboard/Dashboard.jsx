@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import Card from "@material-ui/core/Card";
 import { getCurrentProfile, delAccount } from "../../actions/profile";
 import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
+import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import DashboardActions from "./DashboardActions";
 import Experience from "./Experience";
@@ -32,14 +32,21 @@ const Dashboard = ({
       </h1>
       {!profile === true ? (
         <Fragment>
-          <Typography variant="h2" component="h2">
-            Dashboard
-          </Typography>
-
           <p className="lead"> Hello {user.name}</p>
           <p>Click the below button to create your profile</p>
-          <Link to="/createProfile" className="btn btn-primary my-1">
-            Let's Go
+          <Link to="/createProfile">
+            <Button
+              variant="contained"
+              color="primary"
+              style={{
+                marginTop: "2%",
+                marginBottom: "2%",
+                backgroundColor: "#3aafa9",
+                textTransform:"capitalize"
+              }}
+            >
+              Let's Go
+            </Button>
           </Link>
         </Fragment>
       ) : (
@@ -50,7 +57,15 @@ const Dashboard = ({
                 style={{ borderRadius: "120px", width: "80%" }}
                 src={profile.user.avatar}
               ></img>
-              <Typography variant="h4" gutterBottom style={{color:"rgb(0,0,0,0.8",marginTop:"5%",fontFamily:"sans-serif"}}>
+              <Typography
+                variant="h4"
+                gutterBottom
+                style={{
+                  color: "rgb(0,0,0,0.8",
+                  marginTop: "5%",
+                  fontFamily: "sans-serif",
+                }}
+              >
                 Hello {user.name}
               </Typography>
 
