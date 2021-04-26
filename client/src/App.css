@@ -273,13 +273,12 @@ img {
 .form select,
 .form textarea {
   display: block;
-  width: 50%;
-  margin:3% auto 0 auto;
+  margin:0 auto 0 auto;
   padding: 0.4rem;
   font-size: 1.2rem;
   border: 1px solid #ccc;
   background-color: transparent;
-  color: #ccc;
+  color: rgba(0, 0, 0, 0.85);
   text-align: center;
 }
 
@@ -304,7 +303,7 @@ button {
   color: #3b5998;
 }
 .form .social-input i.fa-instagram {
-  color: #3f729b;
+  color: #8a3ab9;
 }
 .form .social-input i.fa-youtube {
   color: #c4302b;
@@ -409,6 +408,19 @@ button {
   align-items: center;
   justify-content: center;
   text-align: center;
+}
+
+/* Dashboard*/
+.dash-display{
+  display: flex;
+}
+
+.dash-card-1 , .dash-card-2{
+  margin-bottom: 3%;
+}
+
+.dash-card-1{
+  width: 30%;
 }
 
 /* Profiles Page */
@@ -556,6 +568,13 @@ button {
     margin-top: 8rem;
   }
 
+  .dash-display{
+    display: block;
+  }
+
+  .dash-card-1{
+    width: 50%;
+  }
   .hide-sm {
     display: none;
   }

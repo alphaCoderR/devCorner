@@ -16,7 +16,7 @@ const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
         <Spinner />
       ) : (
         <Fragment>
-          <h1 className="large text-primary">Our Community</h1>
+          <h1 style={{marginTop:"3%"}} className="large text-primary">Our Community</h1>
           <p className="lead">
             <i className="fab fa-connectdevelop"></i>Browse and connect with
             other developers

@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import Button from "@material-ui/core/Button";
 
 const ProfileItem = ({
   profile: {
@@ -20,8 +21,19 @@ const ProfileItem = ({
           {status} {company && <span> at {company}</span>}
         </p>
         <p className="my-1">{location && <span>{location}</span>}</p>
-        <Link to={`/profile/${_id}`} className="btn btn-primary">
-          View Profile
+        <Link to={`/profile/${_id}`}>
+          <Button
+            variant="outlined"
+            color="primary"
+            size="large"
+            style={{
+              textTransform: "capitalize",
+              color: "#3aafa9",
+              borderColor: "#3aafa9",
+            }}
+          >
+            View Profile
+          </Button>
         </Link>
       </div>
       <ul>

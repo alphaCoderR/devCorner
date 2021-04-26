@@ -51,7 +51,7 @@ export const getGithubRepos = (userName) => async (dispatch) => {
 
     dispatch({
       type: GET_REPOS,
-      payload: res.data,
+      payload: res.data
     });
   } catch (err) {
     console.log(err.message);
@@ -61,6 +61,7 @@ export const getGithubRepos = (userName) => async (dispatch) => {
     });
   }
 };
+
 
 // GETS THE PROFILE OF THE CURRENT USER
 export const getCurrentProfile = () => async (dispatch) => {

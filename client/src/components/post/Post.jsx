@@ -22,9 +22,7 @@ const Post = ({
     <Spinner />
   ) : (
     <Fragment>
-      <Link to="/posts" className="btn">
-        Back to Posts
-      </Link>
+      
       <PostItem showActions={false} post={post} />
       {isAuthenticated && <CommentForm postId={post._id} />}
       <div className="comments">

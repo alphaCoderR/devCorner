@@ -1,5 +1,7 @@
 import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
 import { connect } from "react-redux";
 import { addComment } from "../../actions/post";
 
@@ -22,20 +24,24 @@ const CommentForm = ({ addComment, postId }) => {
 
   return (
     <div class="post-form">
-      <div class="bg-primary p">
-        <h3>Comment on this topic</h3>
-      </div>
       <form class="form my-1" onSubmit={handleSubmit}>
         <textarea
-          onChange={handleChange}
           name="body"
-          cols="30"
-          rows="5"
-          placeholder="Create a post"
           value={body}
+          onChange={handleChange}
           required
+          cols="35"
+          rows="5"
+          placeholder="Comment"
         ></textarea>
-        <input type="submit" class="btn btn-dark my-1" value="Submit" />
+        <Button
+          type="submit"
+          value="Submit"
+          variant="contained"
+          style={{ marginTop: "2%",backgroundColor:"#3aafa9",color:"whitesmoke" }}
+        >
+          Post
+        </Button>
       </form>
     </div>
   );

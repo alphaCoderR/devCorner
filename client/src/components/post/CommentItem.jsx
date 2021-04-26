@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import Fab from '@material-ui/core/Fab';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import Moment from "react-moment";
 import { Link } from "react-router-dom";
 import { removeComment } from "../../actions/post";
@@ -25,13 +27,12 @@ const CommentItem = ({
           Posted on <Moment format="DD/MM/YYYY">{date}</Moment>
         </p>
         {!auth.loading && user === auth.user._id && (
-          <button
-            onClick={(event) => {removeComment(postId, _id)}}
-            type="button"
-            className="btn btn-danger"
-          >
-            <i className="fas fa-times"></i> Delete
-          </button>
+          <Fab variant="extended" style={{backgroundColor:"#f33",color:"whitesmoke"}} onClick={(event) => {removeComment(postId, _id)}}
+          type="button">
+      <DeleteOutlineIcon />
+      
+    </Fab>
+          
         )}
       </div>
     </div>
@@ -50,3 +51,13 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, { removeComment })(CommentItem);
+
+/*
+<button
+            onClick={(event) => {removeComment(postId, _id)}}
+            type="button"
+            className="btn btn-danger"
+          >
+            <i className="fas fa-times"></i> Delete
+          </button>
+ */

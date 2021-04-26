@@ -2,7 +2,6 @@ import React, { Fragment, useEffect } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/core/styles";
 import AddIcon from "@material-ui/icons/Add";
 import { connect } from "react-redux";
 import Spinner from "../Spinner";
@@ -22,7 +21,9 @@ const Posts = ({
     <Spinner />
   ) : (
     <Fragment>
-      <h1 className="large text-primary">Posts</h1>
+      <h1 style={{ marginTop: "3%" }} className="large text-primary">
+        Posts
+      </h1>
       <p className="lead">
         <i className="fas fa-user"></i>
         Here is your feed
@@ -32,8 +33,13 @@ const Posts = ({
           <Link to="/newPost">
             <Button
               variant="contained"
-              color="primary"
               size="small"
+              style={{
+                backgroundColor: "#3aafa9",
+                color: "whitesmoke",
+                textTransform: "capitalize",
+                letterSpacing:"1px"
+              }}
               startIcon={<AddIcon />}
             >
               Create a new post

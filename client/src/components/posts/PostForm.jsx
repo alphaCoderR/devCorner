@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
+import Button from "@material-ui/core/Button";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { addPost } from "../../actions/post";
 
-const PostForm = ({ addPost,history }) => {
+const PostForm = ({ addPost, history }) => {
   const [formdata, setFormData] = useState({
     head: "",
     body: "",
@@ -24,11 +25,10 @@ const PostForm = ({ addPost,history }) => {
     });
   };
 
-  
   return (
     <div class="post-form">
       <div class="bg-primary p">
-        <h3>What's on your mind ..</h3>
+        <h3 style={{width:"100%"}}>What's on your mind ..</h3>
       </div>
       <form class="form my-1" onSubmit={handleSubmit}>
         <input
@@ -38,17 +38,28 @@ const PostForm = ({ addPost,history }) => {
           value={head}
           placeholder="Heading"
           required
+          style={{
+            width:"50%",
+            marginBottom:"2%"
+          }}
         ></input>
         <textarea
           onChange={handleChange}
           name="body"
-          cols="30"
+          cols="42"
           rows="5"
           placeholder="Create a post"
           value={body}
           required
         ></textarea>
-        <input type="submit" class="btn btn-dark my-1" value="Submit" />
+        <Button
+          type="submit"
+          variant="contained"
+          value="Submit"
+          style={{ backgroundColor: "#3aafa9", color: "whitesmoke" ,marginTop:"3%"}}
+        >
+          Post
+        </Button>
       </form>
     </div>
   );

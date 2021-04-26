@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import Moment from "react-moment";
 import Button from "@material-ui/core/Button";
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 import VisibilityIcon from "@material-ui/icons/Visibility";
-import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
-import ThumbDownIcon from '@material-ui/icons/ThumbDown';
-import Avatar from '@material-ui/core/Avatar';
+import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
+import ThumbDownIcon from "@material-ui/icons/ThumbDown";
+import Avatar from "@material-ui/core/Avatar";
 import Fab from "@material-ui/core/Fab";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { connect } from "react-redux";
@@ -32,17 +32,17 @@ const PostItem = ({
   removePost,
   showActions,
 }) => {
-
   const useStyles = makeStyles((theme) => ({
     root: {
-      display: 'flex',
-      '& > *': {
+      display: "flex",
+      "& > *": {
         margin: theme.spacing(1),
       },
     },
     large: {
       width: theme.spacing(10),
       height: theme.spacing(10),
+      marginLeft: "20%",
     },
   }));
   const classes = useStyles();
@@ -50,7 +50,7 @@ const PostItem = ({
     <div className="post bg-white p-1 my-1">
       <div>
         <a href={"/profile/" + user}>
-          <Avatar alt={name} src={avatar} className={classes.large}  />
+          <Avatar alt={name} src={avatar} className={classes.large} />
           <h4>{name}</h4>
         </a>
       </div>
@@ -64,8 +64,8 @@ const PostItem = ({
           <Fragment>
             <Link to={`/post/${_id}`}>
               <Button
-                variant="contained" 
-                color="primary"
+                variant="outlined"
+                style={{ color: "#3aafa9", borderColor: "#3aafa9" }}
                 startIcon={<VisibilityIcon />}
               >
                 View
@@ -80,8 +80,8 @@ const PostItem = ({
                   type="button"
                   className="btn btn-light"
                 >
-                  <ThumbUpAltIcon style={{ color: "#3aafa9" }}  />
-                  <span>{likes.length}</span>
+                  <ThumbUpAltIcon style={{ color: "#3aafa9" }} />
+                  <span style={{ verticalAlign: "super" }}>{likes.length}</span>
                 </button>
                 <button
                   onClick={(event) => {
@@ -90,8 +90,10 @@ const PostItem = ({
                   type="button"
                   className="btn btn-light"
                 >
-                  <ThumbDownIcon color="default"  />
-                  <span>{dislikes.length}</span>
+                  <ThumbDownIcon color="default" />
+                  <span style={{ verticalAlign: "super" }}>
+                    {dislikes.length}
+                  </span>
                 </button>
                 {!auth.loading && user === auth.user._id && (
                   <Fab

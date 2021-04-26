@@ -1,6 +1,8 @@
 import React, { Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import IconButton from '@material-ui/core/IconButton';
+import EditTwoToneIcon from "@material-ui/icons/EditTwoTone";
 import { connect } from "react-redux";
 import Spinner from "../Spinner";
 import ProfileTop from "./ProfileTop";
@@ -10,10 +12,11 @@ import ProfileEducation from "./ProfileEducation";
 import ProfileGithub from "./ProfileGithub";
 import { getProfileById } from "../../actions/profile";
 
+
 const Profile = ({
   getProfileById,
   profile: { profile, loading },
-  auth: { isAuthenticated,user },
+  auth:{isAuthenticated,user},
   match,
   // In this match obj there is another obj called params which holds all the matching params in the url that we passed
 }) => {
@@ -27,13 +30,12 @@ const Profile = ({
         <Spinner />
       ) : (
         <Fragment>
-          <Link to="/profiles" className="btn btn-light">
-            Back
-          </Link>
           {match.params.id === user._id && isAuthenticated === true && (
-            <Link to="/editProfile" className="btn btn-primary">
-              Edit Profile
-            </Link>
+            <IconButton color="primary" component="span">
+              <Link to="/editProfile">
+                <EditTwoToneIcon />
+              </Link>
+            </IconButton>
           )}
           <div className="profile-grid my-1">
             <ProfileTop profile={profile} />
@@ -62,5 +64,4 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, { getProfileById })(Profile);
-/*
- */
+

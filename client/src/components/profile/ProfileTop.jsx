@@ -10,7 +10,7 @@ const ProfileTop = ({
     website,
     socialMedia,
     user: { name, avatar },
-  },
+  }
 }) => {
   return (
     <div className="profile-top bg-primary p-2">
